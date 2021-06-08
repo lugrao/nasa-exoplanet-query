@@ -1,10 +1,14 @@
 import React from "react"
 import Layout from "../components/Layout"
+import QueryPanel from "../components/QueryPanel"
+import ResultsPanel from "../components/ResultsPanel"
 
 export default function App({ exoplanets }) {
   console.log(exoplanets)
   return (
     <Layout>
+      <QueryPanel />
+      <ResultsPanel />
     </Layout>
   )
 }
