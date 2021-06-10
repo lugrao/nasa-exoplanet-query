@@ -4,20 +4,17 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
   TableCaption,
-  propNames,
   Link,
 } from "@chakra-ui/react"
 import { ExternalLinkIcon } from "@chakra-ui/icons"
 
 export default function QueryPanel({ exoplanets, search }) {
   return (
-    <Container minW="900px">
-      <Table variant="simple">
+      <Table variant="simple" mt="40px">
         <TableCaption>Exoplanets</TableCaption>
         <Thead>
           <Tr>
@@ -29,15 +26,18 @@ export default function QueryPanel({ exoplanets, search }) {
           </Tr>
         </Thead>
         <Tbody>
-          {exoplanets && search &&
-            exoplanets.map(
-              (exoplanet, i) =>
-                (search.hostNames.includes(exoplanet.hostname) ||
-                  search.discoveryMethods.includes(exoplanet.discoverymethod) ||
-                  search.discoveryYears.includes(String(exoplanet.disc_year)) ||
-                  search.discoveryFacilities.includes(
-                    exoplanet.disc_facility
-                  )) && (
+          {exoplanets &&
+            search &&
+            exoplanets.map((exoplanet, i) => {
+              let match = true
+              for (const key in exoplanet) {
+                if (search[key] && search[key] !== exoplanet[key]) {
+                  match = false
+                  break
+                }
+              }
+              return (
+                match && (
                   <Tr key={i}>
                     <Td>
                       <Link
@@ -56,9 +56,9 @@ export default function QueryPanel({ exoplanets, search }) {
                     <Td>{exoplanet.disc_facility}</Td>
                   </Tr>
                 )
-            )}
+              )
+            })}
         </Tbody>
       </Table>
-    </Container>
   )
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import Layout from "../components/Layout"
 import QueryPanel from "../components/QueryPanel"
 import ResultsPanel from "../components/ResultsPanel"
-import { Wrap, WrapItem } from "@chakra-ui/react"
+import { Heading } from "@chakra-ui/react"
 
 export default function App({ exoplanets }) {
   const [hostNames, setHostNames] = useState([])
@@ -30,27 +30,21 @@ export default function App({ exoplanets }) {
 
   function updateUserSearch(newSearch) {
     setUserSearch(newSearch)
-    console.log(userSearch)
   }
 
   return (
     <Layout>
-      <Wrap p="15px">
-        <WrapItem>
-          <QueryPanel
-            queryValues={{
-              hostNames: hostNames,
-              discoveryMethods: discoveryMethods,
-              discoveryFacilities: discoveryFacilities,
-              discoveryYears: discoveryYears,
-            }}
-            updateUserSearch={updateUserSearch}
-          />
-        </WrapItem>
-        <WrapItem>
-          <ResultsPanel exoplanets={exoplanets} search={userSearch} />
-        </WrapItem>
-      </Wrap>
+      <Heading size="lg" textAlign="center" mt="50px">NASA Exoplanet Query</Heading>
+      <QueryPanel
+        queryValues={{
+          hostNames: hostNames,
+          discoveryMethods: discoveryMethods,
+          discoveryFacilities: discoveryFacilities,
+          discoveryYears: discoveryYears,
+        }}
+        updateUserSearch={updateUserSearch}
+      />
+      <ResultsPanel exoplanets={exoplanets} search={userSearch} />
     </Layout>
   )
 }
