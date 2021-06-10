@@ -10,7 +10,6 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <title>NASA Exoplanet Query</title>
           <meta
             nam="description"
             content="Query exoplanets from NASA's database."
