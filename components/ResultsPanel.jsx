@@ -1,6 +1,5 @@
 import React from "react"
 import {
-  Container,
   Table,
   Thead,
   Tbody,
@@ -17,7 +16,7 @@ export default function QueryPanel({ exoplanets, search }) {
     search && (
       <Table variant="simple" mt="40px">
         <TableCaption>
-          Data is collected from{" "}
+          Data collected from{" "}
           <Link
             color="blue.500"
             href="https://exoplanetarchive.ipac.caltech.edu/index.html"
