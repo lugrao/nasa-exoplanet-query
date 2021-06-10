@@ -16,7 +16,7 @@ import { ExternalLinkIcon } from "@chakra-ui/icons"
 
 export default function QueryPanel({ exoplanets, search }) {
   return (
-    <Container>
+    <Container minW="900px">
       <Table variant="simple">
         <TableCaption>Exoplanets</TableCaption>
         <Thead>
