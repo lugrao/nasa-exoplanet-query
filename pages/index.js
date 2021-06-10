@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import Layout from "../components/Layout"
 import QueryPanel from "../components/QueryPanel"
 import ResultsPanel from "../components/ResultsPanel"
 import { Heading } from "@chakra-ui/react"
@@ -37,7 +36,7 @@ export default function App({ exoplanets }) {
   }
 
   return (
-    <Layout>
+    <>
       <Heading size="lg" textAlign="center" mt="50px">
         NASA Exoplanet Query
       </Heading>
@@ -46,7 +45,7 @@ export default function App({ exoplanets }) {
         updateUserSearch={updateUserSearch}
       />
       <ResultsPanel exoplanets={exoplanets} search={userSearch} />
-    </Layout>
+    </>
   )
 }
 

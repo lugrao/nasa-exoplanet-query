@@ -10,7 +10,12 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <link rel="shortcut icon" href="/favicon.svg"/>
+          <title>NASA Exoplanet Query</title>
+          <meta
+            nam="description"
+            content="Query exoplanets from NASA's database."
+          />
+          <link rel="shortcut icon" href="/favicon.svg" />
         </Head>
         <body>
           <Main />
