@@ -16,7 +16,18 @@ export default function QueryPanel({ exoplanets, search }) {
   return (
     search && (
       <Table variant="simple" mt="40px">
-        <TableCaption>Exoplanets</TableCaption>
+        <TableCaption>
+          Data is collected from{" "}
+          <Link
+            color="blue.500"
+            href="https://exoplanetarchive.ipac.caltech.edu/index.html"
+            target="_blank"
+          >
+            NASA Exoplanet Archive
+            <ExternalLinkIcon mx="2px" />
+          </Link>
+          .
+        </TableCaption>
         <Thead>
           <Tr>
             <Th>Planet Name</Th>
