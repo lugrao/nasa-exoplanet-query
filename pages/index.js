@@ -5,11 +5,13 @@ import ResultsPanel from "../components/ResultsPanel"
 import { Heading } from "@chakra-ui/react"
 
 export default function App({ exoplanets }) {
-  const [hostNames, setHostNames] = useState([])
-  const [discoveryMethods, setDiscoveryMethods] = useState([])
-  const [discoveryFacilities, setDiscoveryFacilities] = useState([])
-  const [discoveryYears, setDiscoveryYears] = useState([])
   const [userSearch, setUserSearch] = useState(null)
+  const [queryValues, setQueryValues] = useState({
+    hostNames: [],
+    discoveryMethods: [],
+    discoveryFacilities: [],
+    discoveryYears: [],
+  })
 
   useEffect(() => {
     const hosts = new Set()
@@ -22,10 +24,12 @@ export default function App({ exoplanets }) {
       facilities.add(exoplanet.disc_facility)
       years.add(exoplanet.disc_year)
     })
-    setHostNames([...hosts].sort())
-    setDiscoveryMethods([...methods].sort())
-    setDiscoveryFacilities([...facilities].sort())
-    setDiscoveryYears([...years].sort())
+    setQueryValues({
+      hostNames: [...hosts].sort(),
+      discoveryMethods: [...methods].sort(),
+      discoveryFacilities: [...facilities].sort(),
+      discoveryYears: [...years].sort(),
+    })
   }, [])
 
   function updateUserSearch(newSearch) {
@@ -34,14 +38,11 @@ export default function App({ exoplanets }) {
 
   return (
     <Layout>
-      <Heading size="lg" textAlign="center" mt="50px">NASA Exoplanet Query</Heading>
+      <Heading size="lg" textAlign="center" mt="50px">
+        NASA Exoplanet Query
+      </Heading>
       <QueryPanel
-        queryValues={{
-          hostNames: hostNames,
-          discoveryMethods: discoveryMethods,
-          discoveryFacilities: discoveryFacilities,
-          discoveryYears: discoveryYears,
-        }}
+        queryValues={queryValues}
         updateUserSearch={updateUserSearch}
       />
       <ResultsPanel exoplanets={exoplanets} search={userSearch} />
