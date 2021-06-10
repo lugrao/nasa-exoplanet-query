@@ -9,7 +9,6 @@ import {
 
 export default function QueryPanel(props) {
   const toast = useToast()
-  const [hostNameClicked, setHostNameClicked] = useState(false)
   const [queryValues, setQueryValues] = useState(null)
   const [selection, setSelection] = useState({
     hostname: "",
@@ -56,11 +55,9 @@ export default function QueryPanel(props) {
           w="250px"
           placeholder="Host Name"
           value={selection.hostname}
-          onClick={() => setHostNameClicked(true)}
           onChange={(e) => handleSelection("hostname", e.target.value)}
         >
-          {hostNameClicked &&
-            queryValues &&
+          {queryValues &&
             queryValues.hostNames.map((host, i) => (
               <option key={i} value={host}>
                 {host}
