@@ -20,7 +20,7 @@ export default function QueryPanel({ exoplanets, search }) {
           <Link
             color="blue.500"
             href="https://exoplanetarchive.ipac.caltech.edu/index.html"
-            target="_blank"
+            isExternal
           >
             NASA Exoplanet Archive
             <ExternalLinkIcon mx="2px" />
