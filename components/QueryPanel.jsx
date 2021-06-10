@@ -118,11 +118,11 @@ export default function QueryPanel(props) {
       </WrapItem>
 
       <WrapItem justifySelf="center">
-        <Button colorScheme="blue" onClick={handleSearch} size="sm" mx={2}>
+        <Button colorScheme="facebook" onClick={handleSearch} size="sm" mx={2}>
           Search
         </Button>
 
-        <Button colorScheme="blue" onClick={handleClear} size="sm" mx={2}>
+        <Button colorScheme="facebook" onClick={handleClear} size="sm" mx={2}>
           Clear
         </Button>
       </WrapItem>
