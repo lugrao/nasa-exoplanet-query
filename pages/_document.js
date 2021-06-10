@@ -15,6 +15,10 @@ class MyDocument extends Document {
             nam="description"
             content="Query exoplanets from NASA's database."
           />
+          <meta
+            name="description"
+            content="Web application for querying exoplanets. Data from NASA Exoplanet Archive."
+          ></meta>
           <link rel="shortcut icon" href="/favicon.svg" />
         </Head>
         <body>
