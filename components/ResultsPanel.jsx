@@ -1,5 +1,6 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import {
+  Heading,
   Table,
   Thead,
   Tbody,
@@ -12,8 +13,59 @@ import {
 import { ExternalLinkIcon } from "@chakra-ui/icons"
 
 export default function QueryPanel({ exoplanets, search }) {
+  const [foundResults, setFoundResults] = useState(false)
+  const [results, setResults] = useState([])
+  const [noResultsMessage, setNoResultsMessage] = useState(false)
+
+  useEffect(() => {
+    setFoundResults(false)
+    setNoResultsMessage(false)
+    if (search) {
+      setResults(findResults())
+      if (!foundResults) setNoResultsMessage(true)
+    }
+    console.log("useEffect")
+  }, [search])
+
+  function findResults() {
+    return (
+      search &&
+      exoplanets.map((exoplanet, i) => {
+        let match = true
+        for (const key in exoplanet) {
+          if (search[key] && search[key] !== exoplanet[key]) {
+            match = false
+            break
+          }
+        }
+        if (match) setFoundResults(true)
+        return (
+          match && (
+            <Tr key={i}>
+              <Td>
+                <Link
+                  color="blue.500"
+                  href={
+                    `https://exoplanetarchive.ipac.caltech.edu/overview/` +
+                    exoplanet.pl_name
+                  }
+                  isExternal
+                >
+                  {exoplanet.pl_name} <ExternalLinkIcon mx="2px" />
+                </Link>
+              </Td>
+              <Td>{exoplanet.hostname}</Td>
+              <Td>{exoplanet.discoverymethod}</Td>
+              <Td isNumeric>{exoplanet.disc_year}</Td>
+              <Td>{exoplanet.disc_facility}</Td>
+            </Tr>
+          )
+        )
+      })
+    )
+  }
   return (
-    search && (
+    (search && foundResults && (
       <Table variant="simple" mt="40px">
         <TableCaption>
           Data collected from{" "}
@@ -36,41 +88,13 @@ export default function QueryPanel({ exoplanets, search }) {
             <Th>Discovery Facility</Th>
           </Tr>
         </Thead>
-        <Tbody>
-          {exoplanets &&
-            exoplanets.map((exoplanet, i) => {
-              let match = true
-              for (const key in exoplanet) {
-                if (search[key] && search[key] !== exoplanet[key]) {
-                  match = false
-                  break
-                }
-              }
-              return (
-                match && (
-                  <Tr key={i}>
-                    <Td>
-                      <Link
-                        color="blue.500"
-                        href={
-                          `https://exoplanetarchive.ipac.caltech.edu/overview/` +
-                          exoplanet.pl_name
-                        }
-                        isExternal
-                      >
-                        {exoplanet.pl_name} <ExternalLinkIcon mx="2px" />
-                      </Link>
-                    </Td>
-                    <Td>{exoplanet.hostname}</Td>
-                    <Td>{exoplanet.discoverymethod}</Td>
-                    <Td isNumeric>{exoplanet.disc_year}</Td>
-                    <Td>{exoplanet.disc_facility}</Td>
-                  </Tr>
-                )
-              )
-            })}
-        </Tbody>
+        <Tbody>{results}</Tbody>
       </Table>
-    )
+    )) ||
+    (search && noResultsMessage && (
+      <Heading as="h2" size="md" mt="70px" textAlign="center">
+        No results matching this query.
+      </Heading>
+    ))
   )
 }
