@@ -37,7 +37,7 @@ export default function App({ exoplanets }) {
 
   return (
     <>
-      <Heading size="lg" textAlign="center" mt="50px">
+      <Heading as="h1" size="lg" textAlign="center" mt="50px">
         NASA Exoplanet Query
       </Heading>
       <QueryPanel
