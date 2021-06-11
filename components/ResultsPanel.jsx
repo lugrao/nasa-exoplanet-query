@@ -10,6 +10,7 @@ import {
   Td,
   TableCaption,
   Link,
+  VStack,
 } from "@chakra-ui/react"
 import { ExternalLinkIcon } from "@chakra-ui/icons"
 
@@ -72,11 +73,18 @@ export default function QueryPanel({ exoplanets, search }) {
             Data collected from{" "}
             <Link
               color="blue.500"
-              href="https://exoplanetarchive.ipac.caltech.edu/index.html"
+              href="https://exoplanetarchive.ipac.caltech.edu/cgi-bin/TblView/nph-tblView?app=ExoTbls&config=PSCompPars"
               isExternal
             >
-              NASA Exoplanet Archive
-              <ExternalLinkIcon mx="2px" />
+              this
+            </Link>{" "}
+            table. Yo can read about it{" "}
+            <Link
+              color="blue.500"
+              href="https://exoplanetarchive.ipac.caltech.edu/docs/pscp_about.html"
+              isExternal
+            >
+              here
             </Link>
             .
           </TableCaption>
@@ -92,11 +100,37 @@ export default function QueryPanel({ exoplanets, search }) {
           <Tbody>{results}</Tbody>
         </Table>
       </Box>
-    )) ||
-    (search && noResultsMessage && (
-      <Heading as="h2" size="md" mt="70px" textAlign="center">
-        No results matching this query.
-      </Heading>
-    ))
+    )) || (
+      <VStack h="100%" justify="center" pb="70px">
+        {(search && noResultsMessage && (
+          <Heading
+            as="h2"
+            size="md"
+            m="10px"
+            textAlign="center"
+            color="yellow.600"
+          >
+            No results matching this query.
+          </Heading>
+        )) || (
+          <Box>
+            <Heading as="h2" size="md" m="10px" textAlign="center">
+              Exoplanets are planets outside the Solar System.
+            </Heading>
+            <Heading as="h2" size="md" m="10px" textAlign="center">
+              Here you can query{" "}
+              <Link
+                href="https://exoplanetarchive.ipac.caltech.edu/"
+                color="blue.600"
+                isExternal
+              >
+                NASA's Exoplanet Archive
+              </Link>{" "}
+              and find the one you love the most.
+            </Heading>
+          </Box>
+        )}
+      </VStack>
+    )
   )
 }
