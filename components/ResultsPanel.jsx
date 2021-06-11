@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import {
+  Box,
   Heading,
   Table,
   Thead,
@@ -65,30 +66,32 @@ export default function QueryPanel({ exoplanets, search }) {
   }
   return (
     (search && foundResults && (
-      <Table variant="simple" mt="40px">
-        <TableCaption>
-          Data collected from{" "}
-          <Link
-            color="blue.500"
-            href="https://exoplanetarchive.ipac.caltech.edu/index.html"
-            isExternal
-          >
-            NASA Exoplanet Archive
-            <ExternalLinkIcon mx="2px" />
-          </Link>
-          .
-        </TableCaption>
-        <Thead>
-          <Tr>
-            <Th>Planet Name</Th>
-            <Th>Host Name</Th>
-            <Th>Discovery Method</Th>
-            <Th isNumeric>Discovery Year</Th>
-            <Th>Discovery Facility</Th>
-          </Tr>
-        </Thead>
-        <Tbody>{results}</Tbody>
-      </Table>
+      <Box overflow="auto">
+        <Table variant="simple">
+          <TableCaption>
+            Data collected from{" "}
+            <Link
+              color="blue.500"
+              href="https://exoplanetarchive.ipac.caltech.edu/index.html"
+              isExternal
+            >
+              NASA Exoplanet Archive
+              <ExternalLinkIcon mx="2px" />
+            </Link>
+            .
+          </TableCaption>
+          <Thead>
+            <Tr>
+              <Th>Planet Name</Th>
+              <Th>Host Name</Th>
+              <Th>Discovery Method</Th>
+              <Th isNumeric>Discovery Year</Th>
+              <Th>Discovery Facility</Th>
+            </Tr>
+          </Thead>
+          <Tbody>{results}</Tbody>
+        </Table>
+      </Box>
     )) ||
     (search && noResultsMessage && (
       <Heading as="h2" size="md" mt="70px" textAlign="center">

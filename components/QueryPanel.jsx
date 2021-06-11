@@ -49,7 +49,7 @@ export default function QueryPanel(props) {
   }
 
   return (
-    <Wrap align="center" justify="center" mt="40px">
+    <Wrap align="center" justify="center" mt="10px" pb="40px">
       <WrapItem>
         <Select
           w="250px"
