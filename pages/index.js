@@ -41,13 +41,13 @@ export default function App({ exoplanets }) {
         <Heading as="h1" size="lg" align="center" p="15px" color="white">
           NASA Exoplanet Query
         </Heading>
-        <Grid bgColor="white" h="80vh" p="30px" borderRadius="15px">
+        <Stack bgColor="white" h="80vh" p="30px" borderRadius="15px">
           <QueryPanel
             queryValues={queryValues}
             updateUserSearch={updateUserSearch}
           />
-            <ResultsPanel exoplanets={exoplanets} search={userSearch} />
-        </Grid>
+          <ResultsPanel exoplanets={exoplanets} search={userSearch} />
+        </Stack>
       </Box>
     </>
   )
