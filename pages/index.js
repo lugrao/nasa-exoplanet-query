@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import QueryPanel from "../components/QueryPanel"
 import ResultsPanel from "../components/ResultsPanel"
-import { Heading } from "@chakra-ui/react"
+import { Heading, Box } from "@chakra-ui/react"
 
 export default function App({ exoplanets }) {
   const [userSearch, setUserSearch] = useState(null)
@@ -37,14 +37,16 @@ export default function App({ exoplanets }) {
 
   return (
     <>
-      <Heading as="h1" size="lg" textAlign="center" mt="50px">
-        NASA Exoplanet Query
-      </Heading>
-      <QueryPanel
-        queryValues={queryValues}
-        updateUserSearch={updateUserSearch}
-      />
-      <ResultsPanel exoplanets={exoplanets} search={userSearch} />
+      <Box p="30px">
+        <Heading as="h1" size="lg" textAlign="center" mt="50px">
+          NASA Exoplanet Query
+        </Heading>
+        <QueryPanel
+          queryValues={queryValues}
+          updateUserSearch={updateUserSearch}
+        />
+        <ResultsPanel exoplanets={exoplanets} search={userSearch} />
+      </Box>
     </>
   )
 }
