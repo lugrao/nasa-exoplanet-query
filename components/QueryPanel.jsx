@@ -22,8 +22,9 @@ export default function QueryPanel(props) {
 
   function handleSelection(field, value) {
     setSelection({ ...selection, [field]: value })
+    console.log({ ...selection, [field]: value })
     props.updateQueryValues(
-      Object.values({ ...selection, [field]: value }).filter((i) => i !== "")
+      Object.values({ ...selection, [field]: value }).filter((i) => Boolean(i))
     )
   }
 
