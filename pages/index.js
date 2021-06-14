@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import QueryPanel from "../components/QueryPanel"
 import ResultsPanel from "../components/ResultsPanel"
-import { Heading, Box, Grid, Flex, Stack } from "@chakra-ui/react"
+import { Heading, Box, Stack } from "@chakra-ui/react"
 
 export default function App({ exoplanets }) {
   const [userSearch, setUserSearch] = useState(null)
@@ -13,15 +13,37 @@ export default function App({ exoplanets }) {
   })
 
   useEffect(() => {
+    updateQueryValues(null)
+  }, [])
+
+  function updateUserSearch(newSearch) {
+    setUserSearch(newSearch)
+  }
+
+  function updateQueryValues(values = null) {
     const hosts = new Set()
     const methods = new Set()
     const facilities = new Set()
     const years = new Set()
     exoplanets.forEach((exoplanet) => {
-      hosts.add(exoplanet.hostname)
-      methods.add(exoplanet.discoverymethod)
-      facilities.add(exoplanet.disc_facility)
-      years.add(exoplanet.disc_year)
+      if (values) {
+        let match = 0
+        let exoplanetValues = Object.values(exoplanet)
+        values.forEach((value) => {
+          exoplanetValues.includes(value) && match++
+        })
+        if (match === values.length) {
+          hosts.add(exoplanet.hostname)
+          methods.add(exoplanet.discoverymethod)
+          facilities.add(exoplanet.disc_facility)
+          years.add(exoplanet.disc_year)
+        }
+      } else {
+        hosts.add(exoplanet.hostname)
+        methods.add(exoplanet.discoverymethod)
+        facilities.add(exoplanet.disc_facility)
+        years.add(exoplanet.disc_year)
+      }
     })
     setQueryValues({
       hostNames: [...hosts].sort(),
@@ -29,10 +51,6 @@ export default function App({ exoplanets }) {
       discoveryFacilities: [...facilities].sort(),
       discoveryYears: [...years].sort(),
     })
-  }, [])
-
-  function updateUserSearch(newSearch) {
-    setUserSearch(newSearch)
   }
 
   return (
@@ -45,6 +63,7 @@ export default function App({ exoplanets }) {
           <QueryPanel
             queryValues={queryValues}
             updateUserSearch={updateUserSearch}
+            updateQueryValues={updateQueryValues}
           />
           <ResultsPanel exoplanets={exoplanets} search={userSearch} />
         </Stack>

@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react"
-import {
-  Select,
-  Button,
-  useToast,
-  Wrap,
-  WrapItem,
-} from "@chakra-ui/react"
+import { Select, Button, useToast, Wrap, WrapItem } from "@chakra-ui/react"
 
 export default function QueryPanel(props) {
   const toast = useToast()
@@ -28,6 +22,12 @@ export default function QueryPanel(props) {
 
   function handleSelection(field, value) {
     setSelection({ ...selection, [field]: value })
+    console.log(
+      Object.values({ ...selection, [field]: value }).filter((i) => i !== "")
+    )
+    props.updateQueryValues(
+      Object.values({ ...selection, [field]: value }).filter((i) => i !== "")
+    )
   }
 
   function handleSearch() {
@@ -46,6 +46,7 @@ export default function QueryPanel(props) {
     for (const key in selection) clearedSelection[key] = ""
     setSelection(clearedSelection)
     props.updateUserSearch(null)
+    props.updateQueryValues(null)
   }
 
   return (
