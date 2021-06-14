@@ -22,14 +22,14 @@ export default function QueryPanel(props) {
 
   function handleSelection(field, value) {
     setSelection({ ...selection, [field]: value })
-    console.log({ ...selection, [field]: value })
     props.updateQueryValues(
       Object.values({ ...selection, [field]: value }).filter((i) => Boolean(i))
     )
   }
 
   function handleSearch() {
-    if (!Object.values(selection).join(""))
+    let selectionValues = Object.values(selection).join("")
+    if (selectionValues === "0" || selectionValues === "")
       return toast({
         title: "You must select something",
         status: "error",
