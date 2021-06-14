@@ -12,7 +12,11 @@ import {
   Link,
   VStack,
 } from "@chakra-ui/react"
-import { ExternalLinkIcon } from "@chakra-ui/icons"
+import {
+  ExternalLinkIcon,
+  TriangleDownIcon,
+  TriangleUpIcon,
+} from "@chakra-ui/icons"
 
 export default function QueryPanel({ exoplanets, search }) {
   const [foundResults, setFoundResults] = useState(false)
@@ -90,11 +94,26 @@ export default function QueryPanel({ exoplanets, search }) {
           </TableCaption>
           <Thead>
             <Tr>
-              <Th>Planet Name</Th>
-              <Th>Host Name</Th>
-              <Th>Discovery Method</Th>
-              <Th isNumeric>Discovery Year</Th>
-              <Th>Discovery Facility</Th>
+              <Th>
+                Planet Name <TriangleDownIcon />
+                <TriangleUpIcon />
+              </Th>
+              <Th>
+                Host Name <TriangleDownIcon />
+                <TriangleUpIcon />
+              </Th>
+              <Th>
+                Discovery Method <TriangleDownIcon />
+                <TriangleUpIcon />
+              </Th>
+              <Th isNumeric>
+                Discovery Year <TriangleDownIcon />
+                <TriangleUpIcon />
+              </Th>
+              <Th>
+                Discovery Facility <TriangleDownIcon />
+                <TriangleUpIcon />
+              </Th>
             </Tr>
           </Thead>
           <Tbody>{results}</Tbody>
