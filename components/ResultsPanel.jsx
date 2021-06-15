@@ -50,11 +50,12 @@ export default function QueryPanel({ exoplanets, search }) {
   }
 
   function sortResults(field, order) {
-    let sortedResults = results.sort((a, b) => {
-      if (order === "desc") return a[field] > b[field] ? -1 : 1
-      return a[field] > b[field] ? 1 : -1
-    })
-    setResults([...sortedResults])
+    setResults([
+      ...results.sort((a, b) => {
+        if (order === "desc") return a[field] > b[field] ? -1 : 1
+        return a[field] > b[field] ? 1 : -1
+      }),
+    ])
   }
 
   return (
