@@ -35,7 +35,7 @@ export default function QueryPanel({ exoplanets, search }) {
   function findResults() {
     return (
       search &&
-      exoplanets.map((exoplanet, i) => {
+      exoplanets.filter((exoplanet) => {
         let match = true
         for (const key in exoplanet) {
           if (search[key] && search[key] !== exoplanet[key]) {
@@ -44,33 +44,21 @@ export default function QueryPanel({ exoplanets, search }) {
           }
         }
         if (match) setFoundResults(true)
-        return (
-          match && (
-            <Tr key={i}>
-              <Td>
-                <Link
-                  color="blue.500"
-                  href={
-                    `https://exoplanetarchive.ipac.caltech.edu/overview/` +
-                    exoplanet.pl_name
-                  }
-                  isExternal
-                >
-                  {exoplanet.pl_name} <ExternalLinkIcon mx="2px" />
-                </Link>
-              </Td>
-              <Td>{exoplanet.hostname}</Td>
-              <Td>{exoplanet.discoverymethod}</Td>
-              <Td isNumeric>{exoplanet.disc_year}</Td>
-              <Td>{exoplanet.disc_facility}</Td>
-            </Tr>
-          )
-        )
+        return match
       })
     )
   }
+
+  function sortResults(field, order) {
+    let sortedResults = results.sort((a, b) => {
+      if (order === "desc") return a[field] > b[field] ? -1 : 1
+      return a[field] > b[field] ? 1 : -1
+    })
+    setResults([...sortedResults])
+  }
+
   return (
-    (search && foundResults && (
+    (search && foundResults && results && (
       <Box overflow="auto">
         <Table variant="simple">
           <TableCaption>
@@ -95,28 +83,86 @@ export default function QueryPanel({ exoplanets, search }) {
           <Thead>
             <Tr>
               <Th>
-                Planet Name <TriangleDownIcon />
-                <TriangleUpIcon />
+                Planet Name{" "}
+                <TriangleDownIcon
+                  _hover={{ cursor: "pointer" }}
+                  onClick={() => sortResults("pl_name", "desc")}
+                />
+                <TriangleUpIcon
+                  _hover={{ cursor: "pointer" }}
+                  onClick={() => sortResults("pl_name", "asc")}
+                />
               </Th>
               <Th>
-                Host Name <TriangleDownIcon />
-                <TriangleUpIcon />
+                Host Name{" "}
+                <TriangleDownIcon
+                  _hover={{ cursor: "pointer" }}
+                  onClick={() => sortResults("hostname", "desc")}
+                />
+                <TriangleUpIcon
+                  _hover={{ cursor: "pointer" }}
+                  onClick={() => sortResults("hostname", "asc")}
+                />
               </Th>
               <Th>
-                Discovery Method <TriangleDownIcon />
-                <TriangleUpIcon />
+                Discovery Method{" "}
+                <TriangleDownIcon
+                  _hover={{ cursor: "pointer" }}
+                  onClick={() => sortResults("discoverymethod", "desc")}
+                />
+                <TriangleUpIcon
+                  _hover={{ cursor: "pointer" }}
+                  onClick={() => sortResults("discoverymethod", "asc")}
+                />
               </Th>
               <Th isNumeric>
-                Discovery Year <TriangleDownIcon />
-                <TriangleUpIcon />
+                Discovery Year{" "}
+                <TriangleDownIcon
+                  _hover={{ cursor: "pointer" }}
+                  onClick={() => sortResults("disc_year", "desc")}
+                />
+                <TriangleUpIcon
+                  _hover={{ cursor: "pointer" }}
+                  onClick={() => {
+                    sortResults("disc_year", "asc")
+                  }}
+                />
               </Th>
               <Th>
-                Discovery Facility <TriangleDownIcon />
-                <TriangleUpIcon />
+                Discovery Facility{" "}
+                <TriangleDownIcon
+                  _hover={{ cursor: "pointer" }}
+                  onClick={() => sortResults("disc_facility", "desc")}
+                />
+                <TriangleUpIcon
+                  _hover={{ cursor: "pointer" }}
+                  onClick={() => sortResults("disc_facility", "asc")}
+                />
               </Th>
             </Tr>
           </Thead>
-          <Tbody>{results}</Tbody>
+          <Tbody>
+            {results.map((result, i) => (
+              <Tr key={i}>
+                <Td>
+                  <Link
+                    color="blue.500"
+                    href={
+                      `https://exoplanetarchive.ipac.caltech.edu/overview/` +
+                      result.pl_name
+                    }
+                    isExternal
+                  >
+                    {result.pl_name} <ExternalLinkIcon mx="2px" />
+                  </Link>
+                </Td>
+                <Td>{result.hostname}</Td>
+                <Td>{result.discoverymethod}</Td>
+                <Td isNumeric>{result.disc_year}</Td>
+                <Td>{result.disc_facility}</Td>
+              </Tr>
+            ))}
+          </Tbody>
         </Table>
       </Box>
     )) || (
