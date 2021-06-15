@@ -55,7 +55,7 @@ export default function App({ exoplanets }) {
 
   return (
     <>
-      <Box p="20px" backgroundImage="url('/space.jpg')" h="100vh">
+      <Box p="20px" backgroundImage="url('/space.jpg')" h="100vh" bgColor="black">
         <Heading as="h1" size="lg" align="center" p="15px" color="white">
           NASA Exoplanet Query
         </Heading>
