@@ -59,7 +59,7 @@ export default function QueryPanel({ exoplanets, search }) {
   }
 
   return (
-    (search && foundResults && results && (
+    (search && foundResults && (
       <Box overflow="auto">
         <Table variant="simple">
           <TableCaption>
@@ -69,9 +69,9 @@ export default function QueryPanel({ exoplanets, search }) {
               href="https://exoplanetarchive.ipac.caltech.edu/cgi-bin/TblView/nph-tblView?app=ExoTbls&config=PSCompPars"
               isExternal
             >
-              this
-            </Link>{" "}
-            table. Yo can read about it{" "}
+              this table
+            </Link>
+            . Yo can read about it{" "}
             <Link
               color="blue.500"
               href="https://exoplanetarchive.ipac.caltech.edu/docs/pscp_about.html"
