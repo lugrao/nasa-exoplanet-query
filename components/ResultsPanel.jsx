@@ -190,7 +190,7 @@ export default function QueryPanel({ exoplanets, search }) {
                 color="blue.600"
                 isExternal
               >
-                NASA's Exoplanet Archive
+                NASA&apos;s Exoplanet Archive
               </Link>{" "}
               and find the one you love the most.
             </Heading>
