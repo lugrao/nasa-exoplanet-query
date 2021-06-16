@@ -95,7 +95,7 @@ export default function QueryPanel({ exoplanets, search }) {
                   sortResults={sortResults}
                 />
               </Th>
-              <Th isNumeric>
+              <Th>
                 Discovery Year{" "}
                 <SortButtons field={"disc_year"} sortResults={sortResults} />
               </Th>
@@ -125,7 +125,7 @@ export default function QueryPanel({ exoplanets, search }) {
                 </Td>
                 <Td>{result.hostname}</Td>
                 <Td>{result.discoverymethod}</Td>
-                <Td isNumeric>{result.disc_year}</Td>
+                <Td>{result.disc_year}</Td>
                 <Td>{result.disc_facility}</Td>
               </Tr>
             ))}

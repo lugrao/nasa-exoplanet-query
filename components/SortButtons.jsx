@@ -1,10 +1,10 @@
 import React from "react"
-import { Tooltip } from "@chakra-ui/react"
+import { Box, Tooltip } from "@chakra-ui/react"
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons"
 
 export default function SortButtons({ sortResults, field }) {
   return (
-    <>
+    <Box>
       <Tooltip label="Descending order">
         <TriangleDownIcon
           _hover={{ cursor: "pointer" }}
@@ -17,6 +17,6 @@ export default function SortButtons({ sortResults, field }) {
           onClick={() => sortResults(field, "asc")}
         />
       </Tooltip>
-    </>
+    </Box>
   )
 }
