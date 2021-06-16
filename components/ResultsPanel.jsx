@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import SortButtons from "../components/SortButtons"
 import {
   Box,
   Heading,
@@ -12,11 +13,7 @@ import {
   Link,
   VStack,
 } from "@chakra-ui/react"
-import {
-  ExternalLinkIcon,
-  TriangleDownIcon,
-  TriangleUpIcon,
-} from "@chakra-ui/icons"
+import { ExternalLinkIcon } from "@chakra-ui/icons"
 
 export default function QueryPanel({ exoplanets, search }) {
   const [foundResults, setFoundResults] = useState(false)
@@ -85,59 +82,28 @@ export default function QueryPanel({ exoplanets, search }) {
             <Tr>
               <Th>
                 Planet Name{" "}
-                <TriangleDownIcon
-                  _hover={{ cursor: "pointer" }}
-                  onClick={() => sortResults("pl_name", "desc")}
-                />
-                <TriangleUpIcon
-                  _hover={{ cursor: "pointer" }}
-                  onClick={() => sortResults("pl_name", "asc")}
-                />
+                <SortButtons field={"pl_name"} sortResults={sortResults} />
               </Th>
               <Th>
                 Host Name{" "}
-                <TriangleDownIcon
-                  _hover={{ cursor: "pointer" }}
-                  onClick={() => sortResults("hostname", "desc")}
-                />
-                <TriangleUpIcon
-                  _hover={{ cursor: "pointer" }}
-                  onClick={() => sortResults("hostname", "asc")}
-                />
+                <SortButtons field={"hostname"} sortResults={sortResults} />
               </Th>
               <Th>
                 Discovery Method{" "}
-                <TriangleDownIcon
-                  _hover={{ cursor: "pointer" }}
-                  onClick={() => sortResults("discoverymethod", "desc")}
-                />
-                <TriangleUpIcon
-                  _hover={{ cursor: "pointer" }}
-                  onClick={() => sortResults("discoverymethod", "asc")}
+                <SortButtons
+                  field={"discoverymethod"}
+                  sortResults={sortResults}
                 />
               </Th>
               <Th isNumeric>
                 Discovery Year{" "}
-                <TriangleDownIcon
-                  _hover={{ cursor: "pointer" }}
-                  onClick={() => sortResults("disc_year", "desc")}
-                />
-                <TriangleUpIcon
-                  _hover={{ cursor: "pointer" }}
-                  onClick={() => {
-                    sortResults("disc_year", "asc")
-                  }}
-                />
+                <SortButtons field={"disc_year"} sortResults={sortResults} />
               </Th>
               <Th>
                 Discovery Facility{" "}
-                <TriangleDownIcon
-                  _hover={{ cursor: "pointer" }}
-                  onClick={() => sortResults("disc_facility", "desc")}
-                />
-                <TriangleUpIcon
-                  _hover={{ cursor: "pointer" }}
-                  onClick={() => sortResults("disc_facility", "asc")}
+                <SortButtons
+                  field={"disc_facility"}
+                  sortResults={sortResults}
                 />
               </Th>
             </Tr>
