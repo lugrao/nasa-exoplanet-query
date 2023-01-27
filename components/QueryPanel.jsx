@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
-import { Select, Button, useToast, Wrap, WrapItem } from "@chakra-ui/react"
+import { Button, useToast, Wrap, WrapItem } from "@chakra-ui/react"
+import { Select } from "./Select"
 
 export default function QueryPanel(props) {
   const toast = useToast()
@@ -37,6 +38,7 @@ export default function QueryPanel(props) {
         isClosable: true,
       })
     props.updateUserSearch(selection)
+    console.log(selection)
   }
 
   function handleClear() {
@@ -50,67 +52,47 @@ export default function QueryPanel(props) {
   return (
     <Wrap align="center" justify="center" mt="10px" pb="40px">
       <WrapItem>
-        <Select
-          w="250px"
-          placeholder="Host Name"
-          value={selection.hostname}
-          onChange={(e) => handleSelection("hostname", e.target.value)}
-        >
-          {queryValues &&
-            queryValues.hostNames.map((host, i) => (
-              <option key={i} value={host}>
-                {host}
-              </option>
-            ))}
-        </Select>
+        {queryValues && (
+          <Select
+            label="Host Name"
+            value={selection.hostname}
+            onChange={(e) => handleSelection("hostname", e.value)}
+            options={queryValues.hostNames}
+          />
+        )}
       </WrapItem>
 
       <WrapItem>
-        <Select
-          w="250px"
-          placeholder="Discovery Method"
-          value={selection.discoverymethod}
-          onChange={(e) => handleSelection("discoverymethod", e.target.value)}
-        >
-          {queryValues &&
-            queryValues.discoveryMethods.map((method, i) => (
-              <option key={i} value={method}>
-                {method}
-              </option>
-            ))}
-        </Select>
+        {queryValues && (
+          <Select
+            label="Discovery Method"
+            value={selection.discoverymethod}
+            onChange={(e) => handleSelection("discoverymethod", e.value)}
+            options={queryValues.discoveryMethods}
+          />
+        )}
       </WrapItem>
 
       <WrapItem>
-        <Select
-          w="250px"
-          placeholder="Discovery Year"
-          value={selection.disc_year}
-          onChange={(e) => handleSelection("disc_year", Number(e.target.value))}
-        >
-          {queryValues &&
-            queryValues.discoveryYears.map((year, i) => (
-              <option key={i} value={year}>
-                {year}
-              </option>
-            ))}
-        </Select>
+        {queryValues && (
+          <Select
+            label="Discovery Year"
+            value={selection.disc_year}
+            onChange={(e) => handleSelection("disc_year", e.value)}
+            options={queryValues.discoveryYears}
+          />
+        )}
       </WrapItem>
 
       <WrapItem>
-        <Select
-          w="250px"
-          placeholder="Discovery Facility"
-          value={selection.disc_facility}
-          onChange={(e) => handleSelection("disc_facility", e.target.value)}
-        >
-          {queryValues &&
-            queryValues.discoveryFacilities.map((facility, i) => (
-              <option key={i} value={facility}>
-                {facility}
-              </option>
-            ))}
-        </Select>
+        {queryValues && (
+          <Select
+            label="Discovery Facility"
+            value={selection.disc_facility}
+            onChange={(e) => handleSelection("disc_facility", e.value)}
+            options={queryValues.discoveryFacilities}
+          />
+        )}
       </WrapItem>
 
       <WrapItem justifySelf="center">

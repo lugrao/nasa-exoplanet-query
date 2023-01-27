@@ -25,6 +25,7 @@ export default function QueryPanel({ exoplanets, search }) {
     setNoResultsMessage(false)
     if (search) {
       setResults(findResults())
+      console.log(results) ////////////////
       if (!foundResults) setNoResultsMessage(true)
     }
   }, [search])
