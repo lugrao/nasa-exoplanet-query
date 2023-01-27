@@ -52,47 +52,39 @@ export default function QueryPanel(props) {
   return (
     <Wrap align="center" justify="center" mt="10px" pb="40px">
       <WrapItem>
-        {queryValues && (
-          <Select
-            label="Host Name"
-            value={selection.hostname}
-            onChange={(e) => handleSelection("hostname", e.value)}
-            options={queryValues.hostNames}
-          />
-        )}
+        <Select
+          label="Host Name"
+          value={selection.hostname}
+          onChange={(e) => handleSelection("hostname", e.value)}
+          options={queryValues ? queryValues.hostNames : null}
+        />
       </WrapItem>
 
       <WrapItem>
-        {queryValues && (
-          <Select
-            label="Discovery Method"
-            value={selection.discoverymethod}
-            onChange={(e) => handleSelection("discoverymethod", e.value)}
-            options={queryValues.discoveryMethods}
-          />
-        )}
+        <Select
+          label="Discovery Method"
+          value={selection.discoverymethod}
+          onChange={(e) => handleSelection("discoverymethod", e.value)}
+          options={queryValues ? queryValues.discoveryMethods : null}
+        />
       </WrapItem>
 
       <WrapItem>
-        {queryValues && (
-          <Select
-            label="Discovery Year"
-            value={selection.disc_year}
-            onChange={(e) => handleSelection("disc_year", e.value)}
-            options={queryValues.discoveryYears}
-          />
-        )}
+        <Select
+          label="Discovery Year"
+          value={selection.disc_year}
+          onChange={(e) => handleSelection("disc_year", e.value)}
+          options={queryValues ? queryValues.discoveryYears : null}
+        />
       </WrapItem>
 
       <WrapItem>
-        {queryValues && (
-          <Select
-            label="Discovery Facility"
-            value={selection.disc_facility}
-            onChange={(e) => handleSelection("disc_facility", e.value)}
-            options={queryValues.discoveryFacilities}
-          />
-        )}
+        <Select
+          label="Discovery Facility"
+          value={selection.disc_facility}
+          onChange={(e) => handleSelection("disc_facility", e.value)}
+          options={queryValues ? queryValues.discoveryFacilities : null}
+        />
       </WrapItem>
 
       <WrapItem justifySelf="center">

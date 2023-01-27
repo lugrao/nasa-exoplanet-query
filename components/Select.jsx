@@ -26,22 +26,36 @@ function customSelect({ label, onChange, value, options }) {
     )
   }
 
-  return (
-    <Select
-      value={
-        value ? { label: value, value: value } : { label: label, value: 0 }
-      }
-      onChange={onChange}
-      styles={{
-        control: (baseStyles, state) => ({
-          ...baseStyles,
-          width: 250,
-        }),
-      }}
-      components={{ MenuList }}
-      options={items}
-    />
-  )
+  if (options) {
+    return (
+      <Select
+        value={
+          value ? { label: value, value: value } : { label: label, value: 0 }
+        }
+        onChange={onChange}
+        styles={{
+          control: (baseStyles, state) => ({
+            ...baseStyles,
+            width: 250,
+          }),
+        }}
+        components={{ MenuList }}
+        options={items}
+      />
+    )
+  } else {
+    return (
+      <Select
+        value={{ label: label, value: 0 }}
+        styles={{
+          control: (baseStyles, state) => ({
+            ...baseStyles,
+            width: 250,
+          }),
+        }}
+      />
+    )
+  }
 }
 
 export { customSelect as Select }
