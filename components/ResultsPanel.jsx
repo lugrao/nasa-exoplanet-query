@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import SortButtons from "../components/SortButtons"
 import {
   Box,
@@ -27,10 +27,10 @@ export default function QueryPanel({ exoplanets, search }) {
       setResults(findResults())
       if (!foundResults) setNoResultsMessage(true)
     }
-  }, [search])
+  }, [findResults, foundResults, search])
 
-  function findResults() {
-    return (
+  const findResults = useCallback(
+    () =>
       search &&
       exoplanets.filter((exoplanet) => {
         let match = true
@@ -42,9 +42,9 @@ export default function QueryPanel({ exoplanets, search }) {
         }
         if (match) setFoundResults(true)
         return match
-      })
-    )
-  }
+      }),
+    [exoplanets, search]
+  )
 
   function sortResults(field, order) {
     setResults([
