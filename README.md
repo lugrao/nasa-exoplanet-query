@@ -23,3 +23,4 @@ This is a web app for querying the [NASA Exoplanet Archive](https://exoplanetarc
 ## Additional Bonus Features
 
 - [x] User can select only relevant values from the query dropdowns. The values are filtered based on previously selected values to match the results.
+- [x] User can instantly scroll through a subset of the query options and the results, without needing to wait for the totality of these elements to be rendered to the DOM (thanks to list virtualization).
