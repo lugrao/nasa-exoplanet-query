@@ -1,34 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react"
-import SortButtons from "../components/SortButtons"
-import {
-  Box,
-  Heading,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  Link,
-  VStack,
-} from "@chakra-ui/react"
-import { ExternalLinkIcon } from "@chakra-ui/icons"
+import { Box, Heading, Link, VStack } from "@chakra-ui/react"
+import { Table } from "./Table"
 
 export default function QueryPanel({ exoplanets, search }) {
   const [foundResults, setFoundResults] = useState(false)
   const [results, setResults] = useState([])
   const [noResultsMessage, setNoResultsMessage] = useState(false)
-
-  useEffect(() => {
-    setFoundResults(false)
-    setNoResultsMessage(false)
-    if (search) {
-      setResults(findResults())
-      if (!foundResults) setNoResultsMessage(true)
-    }
-  }, [findResults, foundResults, search])
-
   const findResults = useCallback(
     () =>
       search &&
@@ -46,6 +23,15 @@ export default function QueryPanel({ exoplanets, search }) {
     [exoplanets, search]
   )
 
+  useEffect(() => {
+    setFoundResults(false)
+    setNoResultsMessage(false)
+    if (search) {
+      setResults(findResults())
+      if (!foundResults) setNoResultsMessage(true)
+    }
+  }, [foundResults, search, findResults])
+
   function sortResults(field, order) {
     setResults([
       ...results.sort((a, b) => {
@@ -58,79 +44,7 @@ export default function QueryPanel({ exoplanets, search }) {
   return (
     (search && foundResults && (
       <Box overflow="auto">
-        <Table variant="simple">
-          <TableCaption>
-            Data collected from{" "}
-            <Link
-              color="blue.500"
-              href="https://exoplanetarchive.ipac.caltech.edu/cgi-bin/TblView/nph-tblView?app=ExoTbls&config=PSCompPars"
-              isExternal
-            >
-              this table
-            </Link>
-            . Yo can read about it{" "}
-            <Link
-              color="blue.500"
-              href="https://exoplanetarchive.ipac.caltech.edu/docs/pscp_about.html"
-              isExternal
-            >
-              here
-            </Link>
-            .
-          </TableCaption>
-          <Thead>
-            <Tr>
-              <Th>
-                Planet Name{" "}
-                <SortButtons field={"pl_name"} sortResults={sortResults} />
-              </Th>
-              <Th>
-                Host Name{" "}
-                <SortButtons field={"hostname"} sortResults={sortResults} />
-              </Th>
-              <Th>
-                Discovery Method{" "}
-                <SortButtons
-                  field={"discoverymethod"}
-                  sortResults={sortResults}
-                />
-              </Th>
-              <Th>
-                Discovery Year{" "}
-                <SortButtons field={"disc_year"} sortResults={sortResults} />
-              </Th>
-              <Th>
-                Discovery Facility{" "}
-                <SortButtons
-                  field={"disc_facility"}
-                  sortResults={sortResults}
-                />
-              </Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {results.map((result, i) => (
-              <Tr key={i}>
-                <Td>
-                  <Link
-                    color="blue.500"
-                    href={
-                      `https://exoplanetarchive.ipac.caltech.edu/overview/` +
-                      result.pl_name
-                    }
-                    isExternal
-                  >
-                    {result.pl_name} <ExternalLinkIcon mx="2px" />
-                  </Link>
-                </Td>
-                <Td>{result.hostname}</Td>
-                <Td>{result.discoverymethod}</Td>
-                <Td>{result.disc_year}</Td>
-                <Td>{result.disc_facility}</Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
+        <Table sortResults={sortResults} results={results} />
       </Box>
     )) || (
       <VStack h="100%" justify="center" pb="70px">
