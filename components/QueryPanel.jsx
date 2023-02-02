@@ -38,7 +38,6 @@ export default function QueryPanel(props) {
         isClosable: true,
       })
     props.updateUserSearch(selection)
-    console.log(selection)
   }
 
   function handleClear() {
