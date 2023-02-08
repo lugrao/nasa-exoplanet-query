@@ -1,7 +1,26 @@
 import React from "react"
-import { render, screen } from "@testing-library/react"
+import { render, screen, fireEvent } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import App from "../pages/index"
+import exoplanetsData from "./data/exoplanets.json"
+import userEvent from "@testing-library/user-event"
+
+import { within } from "@testing-library/dom"
+
+function checkIfExoplanetIsWithinTable(exoplanet, table) {
+  expect(
+    within(table).getByRole("cell", { name: exoplanet.hostname })
+  ).toBeInTheDocument()
+  expect(
+    within(table).getByRole("cell", { name: exoplanet.discoverymethod })
+  ).toBeInTheDocument()
+  expect(
+    within(table).getByRole("cell", { name: exoplanet.disc_year })
+  ).toBeInTheDocument()
+  expect(
+    within(table).getByRole("cell", { name: exoplanet.disc_facility })
+  ).toBeInTheDocument()
+}
 
 test("renders the App and all its basic components", () => {
   render(<App exoplanets={[]} />)
@@ -21,4 +40,37 @@ test("renders the App and all its basic components", () => {
   expect(discoveryFacilitySelect).toBeInTheDocument()
   expect(searchButton).toBeInTheDocument()
   expect(clearButton).toBeInTheDocument()
+})
+
+test("clicking Search after selecting a Discovery Year shows a table with results", async () => {
+  render(<App exoplanets={exoplanetsData} />)
+
+  const years = new Set()
+  exoplanetsData.forEach((exoplanet) => years.add(exoplanet.disc_year))
+  const discoveryYears = [...years].sort()
+  const user = userEvent.setup()
+  const exoplanet = exoplanetsData.find(
+    (exoplanet) => exoplanet.disc_year === discoveryYears[0]
+  )
+  const discoveryYearSelect = screen.getByText("Discovery Year")
+  const searchButton = screen.getByRole("button", { name: /search/i })
+
+  expect(screen.queryByText(discoveryYears[0])).not.toBeInTheDocument()
+
+  await user.click(discoveryYearSelect)
+
+  expect(screen.getByText(discoveryYears[0])).toBeInTheDocument()
+  expect(screen.getByText(discoveryYears[1])).toBeInTheDocument()
+
+  fireEvent.click(screen.getByText(discoveryYears[0]))
+
+  expect(screen.getByText(discoveryYears[0])).toBeInTheDocument()
+  expect(screen.queryByText(discoveryYears[1])).not.toBeInTheDocument()
+
+  await user.click(searchButton)
+
+  const table = screen.getByRole("table")
+
+  expect(table).toBeInTheDocument()
+  checkIfExoplanetIsWithinTable(exoplanet, table)
 })
