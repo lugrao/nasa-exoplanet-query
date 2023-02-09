@@ -103,3 +103,35 @@ test("clicking Search after selecting a Discovery Facility shows a table with re
   expect(table).toBeInTheDocument()
   checkIfExoplanetIsWithinTable(exoplanet, table)
 })
+
+test("clicking Search after selecting a Discovery Method shows a table with results", async () => {
+  render(<App exoplanets={exoplanetsData} />)
+
+  const methods = new Set()
+  exoplanetsData.forEach((exoplanet) => methods.add(exoplanet.discoverymethod))
+  const discoveryMethods = [...methods].sort()
+  const user = userEvent.setup()
+  const selectedDiscoveryMethod = discoveryMethods[5]
+  const exoplanet = exoplanetsData.find(
+    (exoplanet) => exoplanet.discoverymethod === selectedDiscoveryMethod
+  )
+  const discoveryMethodSelect = screen.getByText("Discovery Method")
+  const searchButton = screen.getByRole("button", { name: /search/i })
+
+  expect(screen.queryByText(selectedDiscoveryMethod)).not.toBeInTheDocument()
+
+  await user.click(discoveryMethodSelect)
+
+  expect(screen.getByText(selectedDiscoveryMethod)).toBeInTheDocument()
+
+  fireEvent.click(screen.getByText(selectedDiscoveryMethod))
+
+  expect(screen.getByText(selectedDiscoveryMethod)).toBeInTheDocument()
+
+  await user.click(searchButton)
+
+  const table = screen.getByRole("table")
+
+  expect(table).toBeInTheDocument()
+  checkIfExoplanetIsWithinTable(exoplanet, table)
+})
