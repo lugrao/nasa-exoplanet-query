@@ -92,3 +92,29 @@ test("clicking Search after selecting a Discovery Year shows a table with result
 test("clicking Search after selecting a Discovery Facility shows a table with results", async () => {
   await testSelection("Discovery Facility", 3)
 })
+
+test("clicking Clear removes table with results and reset select buttons", async () => {
+  render(<App exoplanets={exoplanetsData} />)
+
+  const user = userEvent.setup()
+  const discoveryYearSelect = screen.getByText("Discovery Year")
+  const searchButton = screen.getByRole("button", { name: /search/i })
+  const clearButton = screen.getByRole("button", { name: /clear/i })
+
+  await user.click(discoveryYearSelect)
+  fireEvent.click(screen.getByText("1996"))
+
+  expect(screen.queryByText("Discovery Year")).not.toBeInTheDocument()
+
+  await user.click(searchButton)
+
+  const table = screen.getByRole("table")
+
+  expect(table).toBeInTheDocument()
+
+  await user.click(clearButton)
+
+  expect(discoveryYearSelect).toBeInTheDocument()
+  expect(table).not.toBeInTheDocument()
+  expect(screen.queryByText("1996")).not.toBeInTheDocument()
+})
