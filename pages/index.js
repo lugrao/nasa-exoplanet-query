@@ -57,7 +57,7 @@ export default function App({ exoplanets }) {
     <>
       <Box
         p="20px"
-        backgroundImage="url('/space.jpg')"
+        backgroundImage="url('/space.webp')"
         h="100vh"
         bgColor="black"
       >
