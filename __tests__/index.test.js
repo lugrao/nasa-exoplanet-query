@@ -135,3 +135,35 @@ test("clicking Search after selecting a Discovery Method shows a table with resu
   expect(table).toBeInTheDocument()
   checkIfExoplanetIsWithinTable(exoplanet, table)
 })
+
+test("clicking Search after selecting a Host Name shows a table with results", async () => {
+  render(<App exoplanets={exoplanetsData} />)
+
+  const hosts = new Set()
+  exoplanetsData.forEach((exoplanet) => hosts.add(exoplanet.hostname))
+  const hostNames = [...hosts].sort()
+  const user = userEvent.setup()
+  const selectedHostName = hostNames[5]
+  const exoplanet = exoplanetsData.find(
+    (exoplanet) => exoplanet.hostname === selectedHostName
+  )
+  const hostNameSelect = screen.getByText("Host Name")
+  const searchButton = screen.getByRole("button", { name: /search/i })
+
+  expect(screen.queryByText(selectedHostName)).not.toBeInTheDocument()
+
+  await user.click(hostNameSelect)
+
+  expect(screen.getByText(selectedHostName)).toBeInTheDocument()
+
+  fireEvent.click(screen.getByText(selectedHostName))
+
+  expect(screen.getByText(selectedHostName)).toBeInTheDocument()
+
+  await user.click(searchButton)
+
+  const table = screen.getByRole("table")
+
+  expect(table).toBeInTheDocument()
+  checkIfExoplanetIsWithinTable(exoplanet, table)
+})
