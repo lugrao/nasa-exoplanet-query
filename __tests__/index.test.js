@@ -4,15 +4,52 @@ import "@testing-library/jest-dom"
 import App from "../pages/index"
 import exoplanetsData from "./data/exoplanets.json"
 import userEvent from "@testing-library/user-event"
-
 import { within } from "@testing-library/dom"
 
-beforeEach(() => {
-  checkIfExoplanetIsWithinTable(null)
-})
+async function testSelection(category, indexOfOption) {
+  const categories = {
+    "Host Name": "hostname",
+    "Discovery Method": "discoverymethod",
+    "Discovery Year": "disc_year",
+    "Discovery Facility": "disc_facility",
+  }
 
-function checkIfExoplanetIsWithinTable(exoplanet, table) {
-  if (exoplanet === null) return
+  if (!categories[category]) {
+    throw new Error(
+      'Valid arguments of `testSelection()` are "Host Name", "Discovery Method", "Discovery Year", and "Discovery Facility".'
+    )
+  }
+
+  render(<App exoplanets={exoplanetsData} />)
+
+  const items = new Set()
+  exoplanetsData.forEach((exoplanet) =>
+    items.add(exoplanet[categories[category]])
+  )
+  const options = [...items].sort()
+  const user = userEvent.setup()
+  const selectedOption = options[indexOfOption]
+  const exoplanet = exoplanetsData.find(
+    (exoplanet) => exoplanet[categories.category] === selectedOption
+  )
+  const categorySelect = screen.getByText(category)
+  const searchButton = screen.getByRole("button", { name: /search/i })
+
+  expect(screen.queryByText(selectedOption)).not.toBeInTheDocument()
+
+  await user.click(categorySelect)
+
+  expect(screen.getByText(selectedOption)).toBeInTheDocument()
+
+  fireEvent.click(screen.getByText(selectedOption))
+
+  expect(screen.getByText(selectedOption)).toBeInTheDocument()
+
+  await user.click(searchButton)
+
+  const table = screen.getByRole("table")
+
+  expect(table).toBeInTheDocument()
   for (const key in exoplanet) {
     expect(
       within(table).getAllByRole("cell", { name: exoplanet[key] })[0]
@@ -40,130 +77,18 @@ test("renders the App and all its basic components", () => {
   expect(clearButton).toBeInTheDocument()
 })
 
-test("clicking Search after selecting a Discovery Year shows a table with results", async () => {
-  render(<App exoplanets={exoplanetsData} />)
-
-  const years = new Set()
-  exoplanetsData.forEach((exoplanet) => years.add(exoplanet.disc_year))
-  const discoveryYears = [...years].sort()
-  const user = userEvent.setup()
-  const selectedDiscoveryYear = discoveryYears[1]
-  const exoplanet = exoplanetsData.find(
-    (exoplanet) => exoplanet.disc_year === selectedDiscoveryYear
-  )
-  const discoveryYearSelect = screen.getByText("Discovery Year")
-  const searchButton = screen.getByRole("button", { name: /search/i })
-
-  expect(screen.queryByText(selectedDiscoveryYear)).not.toBeInTheDocument()
-
-  await user.click(discoveryYearSelect)
-
-  expect(screen.getByText(selectedDiscoveryYear)).toBeInTheDocument()
-
-  fireEvent.click(screen.getByText(selectedDiscoveryYear))
-
-  expect(screen.getByText(selectedDiscoveryYear)).toBeInTheDocument()
-
-  await user.click(searchButton)
-
-  const table = screen.getByRole("table")
-
-  expect(table).toBeInTheDocument()
-  checkIfExoplanetIsWithinTable(exoplanet, table)
-})
-
-test("clicking Search after selecting a Discovery Facility shows a table with results", async () => {
-  render(<App exoplanets={exoplanetsData} />)
-
-  const facilities = new Set()
-  exoplanetsData.forEach((exoplanet) => facilities.add(exoplanet.disc_facility))
-  const discoveryFacilities = [...facilities].sort()
-  const user = userEvent.setup()
-  const selectedDiscoveryFacility = discoveryFacilities[3]
-  const exoplanet = exoplanetsData.find(
-    (exoplanet) => exoplanet.disc_facility === selectedDiscoveryFacility
-  )
-  const discoveryFacilitySelect = screen.getByText("Discovery Facility")
-  const searchButton = screen.getByRole("button", { name: /search/i })
-
-  expect(screen.queryByText(selectedDiscoveryFacility)).not.toBeInTheDocument()
-
-  await user.click(discoveryFacilitySelect)
-
-  expect(screen.getByText(selectedDiscoveryFacility)).toBeInTheDocument()
-
-  fireEvent.click(screen.getByText(selectedDiscoveryFacility))
-
-  expect(screen.getByText(selectedDiscoveryFacility)).toBeInTheDocument()
-
-  await user.click(searchButton)
-
-  const table = screen.getByRole("table")
-
-  expect(table).toBeInTheDocument()
-  checkIfExoplanetIsWithinTable(exoplanet, table)
+test("clicking Search after selecting a Host Name shows a table with results", async () => {
+  await testSelection("Host Name", 5)
 })
 
 test("clicking Search after selecting a Discovery Method shows a table with results", async () => {
-  render(<App exoplanets={exoplanetsData} />)
-
-  const methods = new Set()
-  exoplanetsData.forEach((exoplanet) => methods.add(exoplanet.discoverymethod))
-  const discoveryMethods = [...methods].sort()
-  const user = userEvent.setup()
-  const selectedDiscoveryMethod = discoveryMethods[5]
-  const exoplanet = exoplanetsData.find(
-    (exoplanet) => exoplanet.discoverymethod === selectedDiscoveryMethod
-  )
-  const discoveryMethodSelect = screen.getByText("Discovery Method")
-  const searchButton = screen.getByRole("button", { name: /search/i })
-
-  expect(screen.queryByText(selectedDiscoveryMethod)).not.toBeInTheDocument()
-
-  await user.click(discoveryMethodSelect)
-
-  expect(screen.getByText(selectedDiscoveryMethod)).toBeInTheDocument()
-
-  fireEvent.click(screen.getByText(selectedDiscoveryMethod))
-
-  expect(screen.getByText(selectedDiscoveryMethod)).toBeInTheDocument()
-
-  await user.click(searchButton)
-
-  const table = screen.getByRole("table")
-
-  expect(table).toBeInTheDocument()
-  checkIfExoplanetIsWithinTable(exoplanet, table)
+  await testSelection("Discovery Method", 5)
 })
 
-test("clicking Search after selecting a Host Name shows a table with results", async () => {
-  render(<App exoplanets={exoplanetsData} />)
+test("clicking Search after selecting a Discovery Year shows a table with results", async () => {
+  await testSelection("Discovery Year", 3)
+})
 
-  const hosts = new Set()
-  exoplanetsData.forEach((exoplanet) => hosts.add(exoplanet.hostname))
-  const hostNames = [...hosts].sort()
-  const user = userEvent.setup()
-  const selectedHostName = hostNames[5]
-  const exoplanet = exoplanetsData.find(
-    (exoplanet) => exoplanet.hostname === selectedHostName
-  )
-  const hostNameSelect = screen.getByText("Host Name")
-  const searchButton = screen.getByRole("button", { name: /search/i })
-
-  expect(screen.queryByText(selectedHostName)).not.toBeInTheDocument()
-
-  await user.click(hostNameSelect)
-
-  expect(screen.getByText(selectedHostName)).toBeInTheDocument()
-
-  fireEvent.click(screen.getByText(selectedHostName))
-
-  expect(screen.getByText(selectedHostName)).toBeInTheDocument()
-
-  await user.click(searchButton)
-
-  const table = screen.getByRole("table")
-
-  expect(table).toBeInTheDocument()
-  checkIfExoplanetIsWithinTable(exoplanet, table)
+test("clicking Search after selecting a Discovery Facility shows a table with results", async () => {
+  await testSelection("Discovery Facility", 3)
 })
