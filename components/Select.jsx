@@ -1,30 +1,64 @@
+import * as React from "react"
 import Select from "react-select"
-import { FixedSizeList as List } from "react-window"
+import { useVirtual } from "react-virtual"
 
-function customSelect({ label, onChange, value, options }) {
+function MenuList(props) {
+  const rows = props.children
+  const parentRef = React.useRef()
+  const rowVirtualizer = useVirtual({
+    size: rows.length,
+    parentRef,
+    overscan: 5,
+  })
+
+  return (
+    <>
+      <div
+        ref={parentRef}
+        style={{
+          height: 200,
+          width: `100%`,
+          overflow: "auto",
+        }}
+      >
+        <div
+          style={{
+            height: `${rowVirtualizer.totalSize}px`,
+            width: "100%",
+            position: "relative",
+          }}
+        >
+          {rowVirtualizer.virtualItems.map((virtualRow) => {
+            const row = rows[virtualRow.index]
+            return (
+              <div
+                className="list-item"
+                key={virtualRow.index}
+                ref={virtualRow.measureRef}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "fit-content",
+                  transform: `translateY(${virtualRow.start}px)`,
+                }}
+              >
+                {row}
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </>
+  )
+}
+
+function VirtualizedSelect({ label, onChange, value, options }) {
   const items = options && [
     { label: label, value: 0 },
     ...options.map((option, i) => ({ label: option, value: option })),
   ]
-
-  const MenuList = (props) => {
-    const rows = props.children
-    const rowRenderer = ({ index, style }) => (
-      <div style={style}>{rows[index]}</div>
-    )
-    return (
-      options && (
-        <List
-          height={items.length > 4 ? 150 : 38 * items.length}
-          itemCount={items.length}
-          itemSize={35}
-          width={250}
-        >
-          {rowRenderer}
-        </List>
-      )
-    )
-  }
 
   if (options) {
     return (
@@ -58,4 +92,4 @@ function customSelect({ label, onChange, value, options }) {
   }
 }
 
-export { customSelect as Select }
+export { VirtualizedSelect as Select }
