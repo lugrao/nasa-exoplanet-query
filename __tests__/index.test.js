@@ -90,7 +90,7 @@ test("clicking Search after selecting a Discovery Year shows a table with result
 })
 
 test("clicking Search after selecting a Discovery Facility shows a table with results", async () => {
-  await testSelection("Discovery Facility", 3)
+  await testSelection("Discovery Facility", 5)
 })
 
 test("clicking Clear removes table with results and reset select buttons", async () => {
