@@ -75,6 +75,7 @@ function VirtualizedSelect({ label, onChange, value, options }) {
         }}
         components={{ MenuList }}
         options={items}
+        isSearchable={false}
       />
     )
   } else {
@@ -87,6 +88,7 @@ function VirtualizedSelect({ label, onChange, value, options }) {
             width: 250,
           }),
         }}
+        isSearchable={false}
       />
     )
   }
